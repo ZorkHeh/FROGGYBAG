@@ -30,7 +30,7 @@ class Article(models.Model):
         on_delete=models.SET_NULL,
         null=True
     )
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, verbose_name='Тег')
     title = models.CharField(verbose_name='Заголовок', max_length=255)
     text_preview = models.TextField(verbose_name='Текс-превью')
     text = models.TextField(verbose_name='Текст')
