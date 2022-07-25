@@ -8,12 +8,18 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Категории</h1>
-    <ul>
-        {% for category in categories %}
-            <li><a href="{% url 'article_list' category_id=category.id %}">{{ category }}</a></li>
+    <h1>{{ article.title }}</h1>
+    <p>{{ article.text }}</p>
+    <p>
+        {% for tag in article.tags.all %}
+            <a href="#">#{{ tag.name }}</a>
         {% endfor %}
-    </ul>
-
+        
+    </p>
+    <hr>
+    <p>
+        <b>Дата</b>: {{ article.created_at }} <br>
+        <b>Категория</b>: {{ category.name }} <br>
+    </p>
 </body>
 </html>
