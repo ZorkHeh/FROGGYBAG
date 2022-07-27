@@ -11,9 +11,14 @@
     <h1>Категории</h1>
     <ul>
         {% for category in categories %}
-            <li><a href="{% url 'article_list' category_id=category.id %}">{{ category }}</a></li>
+            <li><a href="{% url 'category_article_list' category_id=category.id %}">{{ category }}</a></li>
         {% endfor %}
     </ul>
-
+    <h1>Тэги</h1>
+    <ul>
+        {% for tag in tags %}
+            <li><a href="{% url 'tag_article_list' tag_id=tag.id %}">{{ tag.name }}</a></li>
+        {% endfor %}
+    </ul>
 </body>
 </html>
