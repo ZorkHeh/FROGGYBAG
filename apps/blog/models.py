@@ -14,6 +14,7 @@ class Tag(models.Model):
 
 class BlogCategory(models.Model):
     name = models.CharField(verbose_name='Название', max_length=255)
+    image = models.ImageField(verbose_name='Изображение', upload_to='blog/category/', null=True)
 
     def __str__(self):
         return self.name
