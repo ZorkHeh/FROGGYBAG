@@ -10,7 +10,7 @@
                             class="img-thumbnail" src="{{ article.image_thumbnail.url }}" alt=""></a>
                 {% else %}
                     <a href="{% url 'article_view' article_id=article.id category_id=article.category.id %}"><img
-                            class="img-thumbnail" src="{% static 'no-image.png' %}" alt=""></a>
+                            class="img-thumbnail no-image" src="{% static 'no-image.png' %}" alt=""></a>
                 {% endif %}
                 <h4>
                     <a href="{% url 'article_view' article_id=article.id category_id=article.category.id %}">{{ article.title }}</a>

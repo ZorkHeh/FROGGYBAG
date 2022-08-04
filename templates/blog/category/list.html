@@ -10,7 +10,7 @@
                                                                                              src="{{ category.image.url }}"
                                                                                              alt=""></a>
                 {% else %}
-                    <a href="{% url 'category_article_list' category_id=category.id %}"><img class="img-thumbnail"
+                    <a href="{% url 'category_article_list' category_id=category.id %}"><img class="img-thumbnail no-image"
                                                                                              src="{% static 'no-image.png' %}"
                                                                                              alt=""></a>
                 {% endif %}
