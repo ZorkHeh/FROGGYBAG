@@ -19,10 +19,6 @@
         {% endfor %}
     </div>
 
-    <h1>Тэги</h1>
-    <ul>
-        {% for tag in tags %}
-            <li><a href="{% url 'tag_article_list' tag_id=tag.id %}">#{{ tag.name }}</a></li>
-        {% endfor %}
-    </ul>
+
+
 {% endblock %}
