@@ -1,5 +1,5 @@
 from django.contrib import admin
-from apps.blog.models import Article, BlogCategory, Tag, User
+from apps.blog.models import Article, BlogCategory, Tag
 from django.urls import reverse
 from django.utils.html import format_html
 from django.utils.http import urlencode
@@ -7,7 +7,6 @@ from django.utils.http import urlencode
 # admin.site.register(Article)
 # admin.site.register(BlogCategory)
 admin.site.register(Tag)
-admin.site.register(User)
 
 
 @admin.register(BlogCategory)

@@ -3,26 +3,7 @@ from django.utils.safestring import mark_safe
 from imagekit.models import ProcessedImageField, ImageSpecField
 from pilkit.processors import ResizeToFill
 from config.settings import MEDIA_ROOT
-
-
-class User(models.Model):
-    first_name = models.CharField(verbose_name='Имя', max_length=100)
-    last_name = models.CharField(verbose_name='Фамилия', max_length=100)
-    image = ProcessedImageField(
-        verbose_name='Аватарка',
-        upload_to='blog/author',
-        processors=[ResizeToFill(50, 50)],
-        format='JPEG',
-        options={'quality': 100},
-        null=True
-    )
-
-    def __str__(self):
-        return self.first_name
-
-    class Meta:
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
+from apps.user.models import User
 
 
 class Tag(models.Model):
