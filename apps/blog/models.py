@@ -5,6 +5,26 @@ from pilkit.processors import ResizeToFill
 from config.settings import MEDIA_ROOT
 
 
+class User(models.Model):
+    first_name = models.CharField(verbose_name='Имя', max_length=100)
+    last_name = models.CharField(verbose_name='Фамилия', max_length=100)
+    image = ProcessedImageField(
+        verbose_name='Аватарка',
+        upload_to='blog/author',
+        processors=[ResizeToFill(50, 50)],
+        format='JPEG',
+        options={'quality': 100},
+        null=True
+    )
+
+    def __str__(self):
+        return self.first_name
+
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
+
+
 class Tag(models.Model):
     name = models.CharField(verbose_name='Название тега', max_length=64)
 
@@ -58,6 +78,7 @@ class Article(models.Model):
         null=True
     )
     tags = models.ManyToManyField(Tag, verbose_name='Тег', blank=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     image = ProcessedImageField(
         verbose_name='Изображение',
         upload_to='blog/article/',
