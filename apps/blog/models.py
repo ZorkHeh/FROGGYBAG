@@ -26,6 +26,7 @@ class BlogCategory(models.Model):
         processors=[ResizeToFill(600, 400)],
         format='JPEG',
         options={'quality': 100},
+        blank=True,
         null=True
     )
 
@@ -66,6 +67,7 @@ class Article(models.Model):
         processors=[],
         format='JPEG',
         options={'quality': 100},
+        blank=True,
         null=True
     )
     image_thumbnail = ImageSpecField(
