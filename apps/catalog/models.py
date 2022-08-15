@@ -1,4 +1,3 @@
-import mptt.models
 from django.db import models
 from django.utils.safestring import mark_safe
 from imagekit.models import ProcessedImageField
@@ -62,8 +61,8 @@ class Category(MPTTModel):
 
 class Product(models.Model):
     name = models.CharField(verbose_name='Название', max_length=255)
-    description = models.TextField(verbose_name='Описание')
-    quantity = models.IntegerField(verbose_name='Колличество')
+    description = models.TextField(verbose_name='Описание', blank=True, null=True)
+    quantity = models.PositiveIntegerField(verbose_name='Колличество', default=1)
     price = models.DecimalField(verbose_name='Цена', max_digits=12, decimal_places=2, default=0)
     created_at = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name='Дата редактирования', auto_now=True)
@@ -72,5 +71,6 @@ class Product(models.Model):
         return self.name
 
     class Meta:
+        ordering = ['-created_at']
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
