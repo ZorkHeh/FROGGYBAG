@@ -59,6 +59,24 @@ class Category(MPTTModel):
         return reverse('category', args=[self.slug])
 
 
+class Image(models.Model):
+    image = ProcessedImageField(
+        verbose_name='Изображение',
+        upload_to='catalog/product',
+        processors=[],
+        format='JPEG',
+        options={'quality': 100}
+    )
+
+    def __str__(self):
+        name = self.image.url.split('/')
+        return name[-1]
+
+    class Meta:
+        verbose_name = 'Изображение'
+        verbose_name_plural = 'Изображения'
+
+
 class Product(models.Model):
     name = models.CharField(verbose_name='Название', max_length=255)
     description = models.TextField(verbose_name='Описание', blank=True, null=True)
@@ -71,6 +89,13 @@ class Product(models.Model):
         verbose_name='Категории',
         through='ProductCategory',
         related_name='categories',
+        blank=True
+    )
+    images = models.ManyToManyField(
+        to=Image,
+        verbose_name='Изображение',
+        through='ProductImage',
+        related_name='images',
         blank=True
     )
 
@@ -99,3 +124,21 @@ class ProductCategory(models.Model):
     class Meta:
         verbose_name = 'Катеория товара'
         verbose_name_plural = 'Категории товара'
+
+
+class ProductImage(models.Model):
+    product = models.ForeignKey(to=Product, verbose_name='Товар', on_delete=models.CASCADE)
+    image = models.ForeignKey(to=Image, verbose_name='Изображение', on_delete=models.CASCADE)
+    is_main = models.BooleanField(verbose_name='Основная категория', default=False)
+
+    def __str__(self):
+        return ''
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if self.is_main:
+            ProductImage.objects.filter(product=self.product).update(is_main=False)
+        super(ProductImage, self).save(force_insert, force_update, using, update_fields)
+
+    class Meta:
+        verbose_name = 'Изображение товара'
+        verbose_name_plural = 'Излбражения товара'
