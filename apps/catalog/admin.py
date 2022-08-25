@@ -7,9 +7,9 @@ class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ['name']}
 
 
-@admin.register(Image)
-class ImageAdmin(admin.ModelAdmin):
-    pass
+# @admin.register(Image)
+# class ImageAdmin(admin.ModelAdmin):
+#     pass
 
 
 class ProductCategoryInline(admin.TabularInline):
@@ -17,12 +17,14 @@ class ProductCategoryInline(admin.TabularInline):
     extra = 1
 
 
-class ProductImageInline(admin.TabularInline):
-    model = Product.images.through
+class ImageInline(admin.TabularInline):
+    model = Image
+    fields = ['product', 'image_tag', 'image', 'is_main']
+    readonly_fields = ['image_tag']
     extra = 1
 
 
 @admin.register(Product)
 class CategoryAdmin(admin.ModelAdmin):
     fields = ['name', 'description', 'quantity', 'price']
-    inlines = [ProductCategoryInline, ProductImageInline]
+    inlines = [ProductCategoryInline, ImageInline]
