@@ -8,7 +8,7 @@
                 <div class="row">
                     {% for item in object.images %}
                         <div class="col-6">
-                            <a href="{{ item.image_thumbnail.url }}" class="product-image"
+                            <a href="{{ item.image.url }}" class="product-image"
                                data-lightbox="roadtrip">
                                 <img src="{{ item.image_thumbnail.url }}" alt=""
                                      class="img-thumbnail">
