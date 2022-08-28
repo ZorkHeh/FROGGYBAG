@@ -23,6 +23,6 @@ def article_view(request, category_id, article_id):
 
 
 def tag_article_list(request, tag_id):
-    tag = Tag.objects.get(id=tag_id)
-    articles = Article.objects.filter(tags__name=tag)
-    return render(request, 'blog/tag/tag_filter_list.html', {'articles': articles})
+    searched_tag = Tag.objects.get(id=tag_id)
+    articles = Article.objects.filter(tags__name=searched_tag)
+    return render(request, 'blog/tag/tag_filter_list.html', {'articles': articles, 'searched_tag':  searched_tag})

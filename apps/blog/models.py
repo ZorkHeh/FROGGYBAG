@@ -2,6 +2,8 @@ from django.db import models
 from django.utils.safestring import mark_safe
 from imagekit.models import ProcessedImageField, ImageSpecField
 from pilkit.processors import ResizeToFill
+
+from apps.main.mixins import MetaTagMixin
 from config.settings import MEDIA_ROOT
 from apps.user.models import User
 
@@ -17,7 +19,7 @@ class Tag(models.Model):
         verbose_name_plural = 'Теги'
 
 
-class BlogCategory(models.Model):
+class BlogCategory(MetaTagMixin):
     name = models.CharField(verbose_name='Название', max_length=255)
     # image = models.ImageField(verbose_name='Изображение', upload_to='blog/category/', null=True)
     image = ProcessedImageField(
@@ -52,7 +54,7 @@ class BlogCategory(models.Model):
         verbose_name_plural = 'Категории блога'
 
 
-class Article(models.Model):
+class Article(MetaTagMixin):
     category = models.ForeignKey(
         to=BlogCategory,
         verbose_name='Категория',
@@ -104,5 +106,11 @@ class Article(models.Model):
     class Meta:
         verbose_name = 'Статья'
         verbose_name_plural = 'Статьи'
+
+    def get_meta_title(self):
+        if self.meta_title:
+            return self.meta_title
+        else:
+            return self.title
 
 
