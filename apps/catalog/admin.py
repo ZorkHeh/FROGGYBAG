@@ -25,6 +25,6 @@ class ImageInline(admin.TabularInline):
 
 
 @admin.register(Product)
-class CategoryAdmin(admin.ModelAdmin):
-    fields = ['name', 'description', 'quantity', 'price']
+class ProductAdmin(admin.ModelAdmin):
+    fields = ['name', 'description', 'quantity', 'price', 'meta_title', 'meta_description', 'meta_keywords']
     inlines = [ProductCategoryInline, ImageInline]

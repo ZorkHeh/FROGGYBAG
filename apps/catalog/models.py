@@ -5,10 +5,12 @@ from imagekit.models import ProcessedImageField, ImageSpecField
 from mptt.models import MPTTModel, TreeForeignKey
 from pilkit.processors import ResizeToFill
 from django.urls import reverse
+
+from apps.main.mixins import MetaTagMixin
 from config.settings import MEDIA_ROOT
 
 
-class Category(MPTTModel):
+class Category(MPTTModel, MetaTagMixin):
     name = models.CharField(verbose_name='Название', max_length=255)
     slug = models.SlugField(unique=True)
     description = models.TextField(verbose_name='Описание', blank=True, null=True)
@@ -60,6 +62,42 @@ class Category(MPTTModel):
         return reverse('category', args=[self.slug])
 
 
+class Product(MetaTagMixin):
+    name = models.CharField(verbose_name='Название', max_length=255)
+    description = models.TextField(verbose_name='Описание', blank=True, null=True)
+    quantity = models.PositiveIntegerField(verbose_name='Колличество', default=1)
+    price = models.DecimalField(verbose_name='Цена', max_digits=12, decimal_places=2, default=0)
+    created_at = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
+    updated_at = models.DateTimeField(verbose_name='Дата редактирования', auto_now=True)
+    categories = models.ManyToManyField(
+        to=Category,
+        verbose_name='Категории',
+        through='ProductCategory',
+        related_name='categories',
+        blank=True
+    )
+
+    def images(self):
+        return Image.objects.filter(product=self.id)
+
+    def main_image(self):
+        image = Image.objects.filter(is_main=True, product=self.id).first()
+        if image:
+            return image
+        return self.images().first()
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'Товар'
+        verbose_name_plural = 'Товары'
+
+    def get_absolute_url(self):
+        return reverse('product', kwargs={'pk': self.id})
+
+
 class Image(models.Model):
     image = ProcessedImageField(
         verbose_name='Изображение',
@@ -95,42 +133,6 @@ class Image(models.Model):
 
     def __str__(self):
         return ''
-
-
-class Product(models.Model):
-    name = models.CharField(verbose_name='Название', max_length=255)
-    description = models.TextField(verbose_name='Описание', blank=True, null=True)
-    quantity = models.PositiveIntegerField(verbose_name='Колличество', default=1)
-    price = models.DecimalField(verbose_name='Цена', max_digits=12, decimal_places=2, default=0)
-    created_at = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
-    updated_at = models.DateTimeField(verbose_name='Дата редактирования', auto_now=True)
-    categories = models.ManyToManyField(
-        to=Category,
-        verbose_name='Категории',
-        through='ProductCategory',
-        related_name='categories',
-        blank=True
-    )
-
-    def images(self):
-        return Image.objects.filter(product=self.id)
-
-    def main_image(self):
-        image = Image.objects.filter(is_main=True, product=self.id).first()
-        if image:
-            return image
-        return self.images().first()
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        ordering = ['-created_at']
-        verbose_name = 'Товар'
-        verbose_name_plural = 'Товары'
-
-    def get_absolute_url(self):
-        return reverse('product', kwargs={'pk': self.id})
 
 
 class ProductCategory(models.Model):
