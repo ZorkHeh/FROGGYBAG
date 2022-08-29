@@ -37,6 +37,11 @@
                 <br>
                 <p class="text-dark text-end">Контакты</p>
                 <p class="text-dark text-end">+380(50)-234-23-12</p>
+                {% if request.user.is_authenticated %}
+                    <p class="text-end">Привет {{ request.user.username }} (<a href="{% url 'logout' %}">Выйти</a>)</p>
+                {% else %}
+                    <p class="text-end"><a href="{% url 'login' %}?next={{ request.path }}">Войти</a></p>
+                {% endif %}
             </div>
         </div>
     </div>
