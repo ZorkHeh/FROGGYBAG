@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block meta_tags %}
     <title>Статьи с тэгом: #{{ searched_tag }} | FROGGYBAG</title>
     {% include '_meta_tags.html' %}
 {% endblock %}
+
+{% block breadcrumbs %}
+    {% include '_breadcrumbs.html' %}
+{% endblock %}
+
 {% block content %}
     <h1>Статьи</h1>
     <ul>
