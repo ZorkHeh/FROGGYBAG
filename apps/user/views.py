@@ -43,6 +43,7 @@ def user_register(request):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
+            login(request, user)
             return render(request, 'user/welcome.html', {'user': user, 'next_page': next_page})
         error = form.errors
     else:
