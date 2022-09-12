@@ -40,7 +40,11 @@
                 {% if request.user.is_authenticated %}
                     <p class="text-end">Привет {{ request.user.username }} (<a href="{% url 'logout' %}">Выйти</a>)</p>
                 {% else %}
-                    <p class="text-end"><a href="{% url 'login' %}?next={{ request.path }}">Войти</a></p>
+                    <p class="text-end">
+                        <a href="{% url 'login' %}?next={% if request.GET.next %}{{ request.GET.next }}{% else %}{{ request.path }}{% endif %}">Войти</a>
+                        Или
+                        <a href="{% url 'register' %}?next={{ request.path }}">Зарегистририроваться</a>
+                    </p>
                 {% endif %}
             </div>
         </div>
