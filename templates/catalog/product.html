@@ -36,12 +36,25 @@
                     {% endif %}
                 </p>
                 <b class="text-danger product-price">{{ object.price }} грн.</b>
-                <form action="">
-                    <div class="input-group mb-3">
-                        <input type="number" min="1" step="1" max="100" value="1" class="form-control">
-                        <button class="btn btn-success" type="button" id="button-addon1">Купить</button>
-                    </div>
-                </form>
+                {% if product.quantity %}
+                    {% if request.user.is_authenticated %}
+                        <form action="{% url 'add_to_cart' %}" method="get">
+                            <input type="hidden" name="product" value="{{ product.id }}">
+                            <div class="input-group mb-3">
+                                <input type="number" min="1" step="1" max="{{ product.quantity }}" value="1" class="form-control"
+                                       id="quantity" name="quantity">
+                                <button class="btn btn-success" type="submit" id="button-addon1">Купить</button>
+                            </div>
+                        </form>
+                    {% else %}
+                        <div class="alert alert-info">Делать покупки может только авторизированный пользователь</div>
+                    {% endif %}
+
+                {% else %}
+                    <div class="alert alert-danger">Товара нет в наличии</div>
+                {% endif %}
+
+
                 <br>
                 <h4 class="text-center">Описание</h4>
                 <p>{{ object.description }}</p>

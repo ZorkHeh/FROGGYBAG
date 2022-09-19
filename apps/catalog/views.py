@@ -55,8 +55,6 @@ class ProductDetailView(DetailViewBreadcrumbsMixin):
         breadcrumbs = {reverse('catalog'): PAGE_NAMES['catalog']}
         category = self.object.main_category()
         if category:
-            print(category)
-            print(category.parent)
             if category.parent:
                 links = []
                 parent = category.parent
