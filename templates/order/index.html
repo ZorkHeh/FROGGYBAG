@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h3>Корзина</h3>
+    {% include 'order/_cart.html' with cart=cart %}
+{% endblock %}

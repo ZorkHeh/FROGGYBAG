@@ -30,3 +30,7 @@ def add_to_cart(request):
         return render(request, 'order/added.html', {'product': cd['product'], 'cart': get_cart_data(cd['user'])})
 
     print(form.errors)
+
+
+def cart_view(request):
+    return render(request, 'order/index.html', {'cart': get_cart_data(request.user)})
