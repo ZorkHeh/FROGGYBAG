@@ -3,4 +3,10 @@
 {% block content %}
     <h3>Корзина</h3>
     {% include 'order/_cart.html' with cart=cart %}
+
+    {% if cart.total %}
+        <p class="text-center">
+            <a href="{% url 'create_order' %}" class="btn btn-success">Оформить заказ</a>
+        </p>
+    {% endif %}
 {% endblock %}
