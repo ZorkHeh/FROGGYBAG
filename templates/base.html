@@ -47,8 +47,7 @@
                     </a></p>
                 {% else %}
                     <p class="text-end">
-                        <a href="{% url 'login' %}?next=
-                                {% if request.GET.next %}{{ request.GET.next }}{% else %}{{ request.path }}{% endif %}">Войти</a>
+                        <a href="{% url 'login' %}?next={% if request.GET.next %}{{ request.GET.next }}{% else %}{{ request.path }}{% endif %}">Войти</a>
                         Или
                         <a href="{% url 'register' %}?next={{ request.path }}">Зарегистририроваться</a>
                     </p>
